@@ -1,10 +1,10 @@
 {
-	"name": "remotion-template",
+	"name": "ruoka-mp4",
 	"version": "1.0.0",
-	"description": "My Remotion video",
+	"description": "A tool to render mayk.fi menu as a video.",
 	"scripts": {
 		"start": "remotion preview src/index.tsx",
-		"build": "remotion render src/index.tsx Food out/video.mp4",
+		"build": "remotion render src/index.tsx Food out/ruoka.mp4",
 		"upgrade": "remotion upgrade",
 		"server": "ts-node server.tsx",
 		"test": "eslint src --ext ts,tsx,js,jsx && tsc"

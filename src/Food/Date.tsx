@@ -13,9 +13,9 @@ export const Date: React.FC<{
 			style={{
 				fontFamily: `${font}, SF Pro Text, Helvetica, Arial`,
 				fontWeight: 'bold',
-				fontSize: 100,
+				fontSize: 80,
 				textAlign: 'left',
-				marginTop: '23rem',
+				marginTop: '24rem',
 				marginLeft: '5rem',
 				width: '100%',
 			}}

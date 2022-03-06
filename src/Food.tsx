@@ -58,7 +58,7 @@ export const Food: React.FC<{
 				<Sequence from={0}>
 					<Date
 						font={globalFont}
-						titleText={`${data.data.menu_today.food.date}`}
+						titleText={`${data.data.menu_today.food.date} - vk ${data.data.menu_today.food.current_week}`}
 						titleColor={titleColor}
 					/>
 				</Sequence>

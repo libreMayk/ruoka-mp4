@@ -73,6 +73,7 @@ app.get('/cors', (req, res) => {
 						.locale('fi')
 						.format('MMMM Do YYYY, h:mm:ss a'),
 					today_date: moment().locale('fi').format('l'),
+					current_week: moment().locale('fi').format('w'),
 					date: food.date[getTodayDateNum()] || null,
 					normal: food.normal[getTodayDateNum()] || null,
 					vege: food.vege[getTodayDateNum()] || null,
