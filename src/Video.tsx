@@ -1,51 +1,41 @@
 import {Composition} from 'remotion';
-import {HelloWorld} from './HelloWorld';
-import {Logo} from './HelloWorld/Logo';
-import {Subtitle} from './HelloWorld/Subtitle';
-import {Title} from './HelloWorld/Title';
+import {Food} from './Food';
+import {Meal} from './Food/Meal';
+import {Date} from './Food/Date';
 
 export const RemotionVideo: React.FC = () => {
+	const width = 1000;
+	const height = 1000;
+	const fps = 60;
+
 	return (
 		<>
 			<Composition
-				id="HelloWorld"
-				component={HelloWorld}
-				durationInFrames={150}
-				fps={30}
-				width={1920}
-				height={1080}
+				id="Food"
+				component={Food}
+				durationInFrames={300}
+				fps={fps}
+				width={width}
+				height={height}
 				defaultProps={{
-					titleText: 'Welcome to Remotion',
-					titleColor: 'black',
+					titleColor: 'white',
 				}}
-			/>
-			<Composition
-				id="Logo"
-				component={Logo}
-				durationInFrames={200}
-				fps={30}
-				width={1920}
-				height={1080}
 			/>
 			<Composition
 				id="Title"
-				component={Title}
-				durationInFrames={100}
-				fps={30}
-				width={1920}
-				height={1080}
-				defaultProps={{
-					titleText: 'Welcome to Remotion',
-					titleColor: 'black',
-				}}
+				component={Date}
+				durationInFrames={200}
+				fps={60}
+				width={width}
+				height={height}
 			/>
 			<Composition
-				id="Subtitle"
-				component={Subtitle}
-				durationInFrames={100}
-				fps={30}
-				width={1920}
-				height={1080}
+				id="Meal"
+				component={Meal}
+				durationInFrames={200}
+				fps={60}
+				width={width}
+				height={height}
 			/>
 		</>
 	);

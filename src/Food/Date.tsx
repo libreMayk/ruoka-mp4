@@ -1,21 +1,22 @@
 import {spring, useCurrentFrame, useVideoConfig} from 'remotion';
 
-export const Title: React.FC<{
+export const Date: React.FC<{
 	titleText: string;
 	titleColor: string;
-}> = ({titleText, titleColor}) => {
+	font?: string;
+}> = ({titleText, titleColor, font}) => {
 	const videoConfig = useVideoConfig();
 	const frame = useCurrentFrame();
 	const text = titleText.split(' ').map((t) => ` ${t} `);
 	return (
 		<h1
 			style={{
-				fontFamily: 'SF Pro Text, Helvetica, Arial',
+				fontFamily: `${font}, SF Pro Text, Helvetica, Arial`,
 				fontWeight: 'bold',
 				fontSize: 100,
-				textAlign: 'center',
-				position: 'absolute',
-				bottom: 160,
+				textAlign: 'left',
+				marginTop: '23rem',
+				marginLeft: '5rem',
 				width: '100%',
 			}}
 		>

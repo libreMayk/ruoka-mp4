@@ -61,7 +61,8 @@ export const Logo: React.FC<{
 				position: 'absolute',
 				width: videoConfig.width,
 				height: videoConfig.height,
-				transform: `scale(${scale}) translateY(${translation}px) rotate(${logoRotation}deg)`,
+				transform: `scale(${scale}) rotate(${logoRotation}deg)`,
+				opacity: 0.1,
 			}}
 		>
 			<Arc
