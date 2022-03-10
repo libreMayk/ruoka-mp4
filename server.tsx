@@ -18,7 +18,7 @@ import path from 'path';
 
 const app = express();
 const port = process.env.PORT || 8000;
-const compositionId = 'HelloWorld';
+const compositionId = 'Food';
 
 const cache = new Map<string, string>();
 
@@ -62,7 +62,7 @@ app.get('/', async (req, res) => {
 			imageFormat: 'jpeg',
 		});
 
-		const finalOutput = path.join(tmpDir, 'out.mp4');
+		const finalOutput = path.join(tmpDir, 'ruoka.mp4');
 		await stitchFramesToVideo({
 			dir: tmpDir,
 			force: true,
@@ -93,7 +93,7 @@ console.log(
 		'',
 		'If you are running Hello World, try this:',
 		'',
-		`http://localhost:${port}?titleText=Hello,+World!&titleColor=red`,
+		`http://localhost:${port}`,
 		'',
 	].join('\n')
 );

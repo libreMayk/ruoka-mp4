@@ -38,6 +38,12 @@ const fetchData = () => {
 					food.vege.push(kasvisruoka.replace(/ {2}Kasvisruoka /g, '')); // kasvisruoka.replace(/ {2}Kasvisruoka/g, '')
 				}
 			});
+
+			console.log(
+				`\n--------------------\nFetched data at ${moment().format(
+					'MMMM Do YYYY, h:mm:ss a'
+				)}\n--------------------\n`
+			);
 		})
 		.catch((err) => {
 			console.log(err);
@@ -51,6 +57,8 @@ const getTodayDateNum = () => {
 		return moment().locale('fi').isoWeekday() - 1;
 	}
 };
+
+fetchData();
 
 app.get('/cors', (req, res) => {
 	fetchData();
@@ -84,4 +92,4 @@ app.get('/cors', (req, res) => {
 });
 
 app.listen(PORT);
-console.info(`Online on http://localhost:${PORT}`);
+console.info(`Online on port ${PORT}!`);

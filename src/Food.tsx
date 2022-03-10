@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {continueRender} from 'remotion';
+import {Audio, continueRender} from 'remotion';
 import {delayRender} from 'remotion';
 import {useState} from 'react';
 import {interpolate, Sequence, useCurrentFrame, useVideoConfig} from 'remotion';
@@ -10,6 +10,8 @@ import {MaykLogo} from './Food/MaykLogo';
 
 import {RiPlantFill} from 'react-icons/ri';
 import {MdFastfood} from 'react-icons/md';
+
+import audio from './assets/audio.mp3';
 
 export const Food: React.FC<{
 	titleColor: string;
@@ -51,6 +53,7 @@ export const Food: React.FC<{
 
 	return data.data ? (
 		<div style={{flex: 1, backgroundColor: '#111111'}}>
+			<Audio src={audio} startFrom={0} endAt={300} />
 			<div style={{opacity}}>
 				<Sequence from={0} durationInFrames={videoConfig.durationInFrames}>
 					<Logo transitionStart={25} />
