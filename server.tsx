@@ -11,10 +11,13 @@ import {
 	renderFrames,
 	stitchFramesToVideo,
 } from '@remotion/renderer';
-import express from 'express';
+import express, {Request, Response} from 'express';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import axios from 'axios';
+
+const clc = require('cli-color');
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -22,7 +25,12 @@ const compositionId = 'Food';
 
 const cache = new Map<string, string>();
 
-app.get('/', async (req, res) => {
+export const info = clc.bold.blue('[INFO] ');
+export const success = clc.bold.green('[SUCCESS] ');
+export const warning = clc.bold.yellow('[WARNING] ');
+export const error = clc.bold.red('[ERROR] ');
+
+const cacheVideo = async (req: Request, res: Response) => {
 	const sendFile = (file: string) => {
 		fs.createReadStream(file)
 			.pipe(res)
@@ -49,10 +57,10 @@ app.get('/', async (req, res) => {
 		const {assetsInfo} = await renderFrames({
 			config: video,
 			webpackBundle: bundled,
-			onStart: () => console.log('Rendering frames...'),
+			onStart: () => console.log(info + 'Rendering frames...'),
 			onFrameUpdate: (f) => {
 				if (f % 10 === 0) {
-					console.log(`Rendered frame ${f}`);
+					console.log(info + `Rendered frame ${clc.bold(f)}...`);
 				}
 			},
 			parallelism: null,
@@ -75,25 +83,30 @@ app.get('/', async (req, res) => {
 		});
 		cache.set(JSON.stringify(req.query), finalOutput);
 		sendFile(finalOutput);
-		console.log('Video rendered and sent!');
+		console.log(success + 'Video rendered and sent!');
 	} catch (err) {
+		console.log(error + 'An error has occured...');
 		console.error(err);
 		res.json({
 			error: err,
 		});
 	}
+};
+
+app.get('/', async (req, res) => {
+	cacheVideo(req, res);
 });
 
 app.listen(port);
 
-console.log(
-	[
-		`The server has started on http://localhost:${port}!`,
-		'You can render a video by passing props as URL parameters.',
-		'',
-		'If you are running Hello World, try this:',
-		'',
-		`http://localhost:${port}`,
-		'',
-	].join('\n')
-);
+console.log(success + `Server is running on http://localhost:${port}.`);
+
+axios
+	.get(`http://localhost:${port}`)
+	.then(() => {
+		console.log(success + 'Successfully fetched the API!');
+	})
+	.catch((err) => {
+		console.log(error + 'An error has occured...');
+		console.error(err);
+	});

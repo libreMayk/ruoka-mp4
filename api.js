@@ -4,9 +4,10 @@ const {JSDOM} = jsdom;
 
 const express = require('express');
 const moment = require('moment');
+const clc = require('cli-color');
 const app = express();
 
-const PORT = 8080;
+const port = process.env.PORT || 8080;
 
 const food = {
 	date: [] || null,
@@ -15,6 +16,11 @@ const food = {
 };
 
 const url = 'https://www.mayk.fi/tietoa-meista/ruokailu/';
+
+const info = clc.bold.blue('[INFO] ');
+const success = clc.bold.green('[SUCCESS] ');
+const warning = clc.bold.yellow('[WARNING] ');
+const error = clc.bold.red('[ERROR] ');
 
 const fetchData = () => {
 	got(url)
@@ -40,9 +46,7 @@ const fetchData = () => {
 			});
 
 			console.log(
-				`\n--------------------\nFetched data at ${moment().format(
-					'MMMM Do YYYY, h:mm:ss a'
-				)}\n--------------------\n`
+				info + `Fetched data at ${moment().format('MMMM Do YYYY, h:mm:ss a')}`
 			);
 		})
 		.catch((err) => {
@@ -59,6 +63,10 @@ const getTodayDateNum = () => {
 };
 
 fetchData();
+
+app.get('/', (req, res) => {
+	res.redirect('/cors');
+});
 
 app.get('/cors', (req, res) => {
 	fetchData();
@@ -91,5 +99,14 @@ app.get('/cors', (req, res) => {
 	});
 });
 
-app.listen(PORT);
-console.info(`Online on port ${PORT}!`);
+app.listen(port);
+
+console.info(success + `API is running on http://localhost:${port}\n`);
+
+/* eslint-env node */
+module.exports = {
+	info,
+	success,
+	warning,
+	error,
+};
