@@ -13,9 +13,9 @@ import {
 } from '@remotion/renderer';
 import express, {Request, Response} from 'express';
 import fs from 'fs';
-import os from 'os';
 import path from 'path';
 import axios from 'axios';
+import moment from 'moment';
 
 const clc = require('cli-color');
 
@@ -30,47 +30,38 @@ export const success = clc.bold.green('[SUCCESS] ');
 export const warning = clc.bold.yellow('[WARNING] ');
 export const error = clc.bold.red('[ERROR] ');
 
-const cacheVideo = async (req: Request, res: Response) => {
-	const sendFile = (file: string) => {
-		fs.createReadStream(file)
-			.pipe(res)
-			.on('close', () => {
-				res.end();
-			});
-	};
-	try {
-		if (cache.get(JSON.stringify(req.query))) {
-			sendFile(cache.get(JSON.stringify(req.query)) as string);
-			return;
-		}
-		const bundled = await bundle(path.join(__dirname, './src/index.tsx'));
-		const comps = await getCompositions(bundled, {inputProps: req.query});
-		const video = comps.find((c) => c.id === compositionId);
-		if (!video) {
-			throw new Error(`No video called ${compositionId}`);
-		}
-		res.set('content-type', 'video/mp4');
+const createVideo = async (inputProps?: object | undefined) => {
+	const bundled = await bundle(path.join(__dirname, './src/index.tsx'));
+	const comps = await getCompositions(bundled, {inputProps});
+	const video = comps.find((c) => c.id === compositionId);
+	if (!video) {
+		throw new Error(`No video called ${compositionId}`);
+	}
 
-		const tmpDir = await fs.promises.mkdtemp(
-			path.join(os.tmpdir(), 'remotion-')
-		);
+	const tmpDir = path.resolve(process.env.VIDEO_DIR || 'videos');
+	await fs.promises.mkdir(tmpDir, {recursive: true});
+	const key = moment(new Date()).format('YYYYMMDD') + '.mp4';
+	const finalOutput = path.join(tmpDir, 'ruoka' + key);
+
+	if (fs.existsSync(finalOutput)) {
+		return finalOutput;
+	} else {
 		const {assetsInfo} = await renderFrames({
 			config: video,
 			webpackBundle: bundled,
 			onStart: () => console.log(info + 'Rendering frames...'),
 			onFrameUpdate: (f) => {
 				if (f % 10 === 0) {
-					console.log(info + `Rendered frame ${clc.bold(f)}...`);
+					process.stdout.write(info + `Rendered frame ${clc.bold(f)}...\r`);
 				}
 			},
 			parallelism: null,
 			outputDir: tmpDir,
-			inputProps: req.query,
+			inputProps,
 			compositionId,
 			imageFormat: 'jpeg',
 		});
 
-		const finalOutput = path.join(tmpDir, 'ruoka.mp4');
 		await stitchFramesToVideo({
 			dir: tmpDir,
 			force: true,
@@ -81,9 +72,40 @@ const cacheVideo = async (req: Request, res: Response) => {
 			imageFormat: 'jpeg',
 			assetsInfo,
 		});
-		cache.set(JSON.stringify(req.query), finalOutput);
+	}
+
+	return finalOutput;
+};
+
+const cacheVideo = async (req: Request, res: Response) => {
+	const sendFile = (file: string) => {
+		fs.createReadStream(file)
+			.pipe(res)
+			.on('close', () => {
+				res.end();
+			});
+	};
+
+	try {
+		if (cache.get(JSON.stringify(req.query))) {
+			sendFile(cache.get(JSON.stringify(req.query)) as string);
+			return;
+		}
+
+		res.set('content-type', 'video/mp4');
+
+		const finalOutput = await createVideo();
 		sendFile(finalOutput);
+
 		console.log(success + 'Video rendered and sent!');
+
+		fs.readdirSync('./videos').map((f) => {
+			if (f.endsWith('.jpeg')) {
+				fs.unlinkSync('./videos/' + f);
+			} else {
+				return;
+			}
+		});
 	} catch (err) {
 		console.log(error + 'An error has occured...');
 		console.error(err);
