@@ -5,4 +5,5 @@ dist
 
 # Ignore the output video from Git but not videos you import into src/.
 out
-videos
+videos/*.mp4
+videos/*.json
