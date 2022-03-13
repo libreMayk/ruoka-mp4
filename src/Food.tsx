@@ -12,6 +12,7 @@ import {RiPlantFill} from 'react-icons/ri';
 import {MdFastfood} from 'react-icons/md';
 
 import audio from './assets/audio.mp3';
+import './assets/fonts.css';
 
 export const Food: React.FC<{
 	titleColor: string;
