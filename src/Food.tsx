@@ -53,7 +53,7 @@ export const Food: React.FC<{
 	const globalFont = 'Cantarell';
 
 	return data.data ? (
-		<div style={{flex: 1, backgroundColor: '#111111'}}>
+		<div style={{flex: 1, backgroundColor: '#111116'}}>
 			<Audio src={audio} startFrom={0} endAt={300} />
 			<div style={{opacity}}>
 				<Sequence from={0} durationInFrames={videoConfig.durationInFrames}>

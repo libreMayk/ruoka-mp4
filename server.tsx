@@ -177,6 +177,12 @@ const cacheVideo = async (req: Request, res: Response) => {
 
 let food: IFood | undefined = undefined;
 
+app.get('/', (req, res) => {
+	res.send(
+		`<code>welcome to ruoka-mp4! <br>video => <a href="/video">./video<a/><br>api => <a href="/cors">./cors<a/></code>`
+	);
+});
+
 app.get('/cors', async (req, res) => {
 	res.set('Access-Control-Allow-Origin', '*');
 
@@ -236,7 +242,7 @@ app.get('/cors', async (req, res) => {
 	});
 });
 
-app.get('/', async (req, res) => {
+app.get('/video', async (req, res) => {
 	cacheVideo(req, res);
 });
 
