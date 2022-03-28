@@ -109,7 +109,9 @@ export const Food: React.FC<{
 					</div>
 				</Sequence>
 			</div>
-			<MaykLogo />
+			<div style={{opacity}}>
+				<MaykLogo />
+			</div>
 		</div>
 	) : (
 		<div>
