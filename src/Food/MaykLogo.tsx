@@ -6,6 +6,7 @@ export const MaykLogo: React.FC = ({...props}) => {
 	return (
 		<div>
 			<Img
+				className="maykLogo"
 				style={{
 					position: 'absolute',
 					right: 25,

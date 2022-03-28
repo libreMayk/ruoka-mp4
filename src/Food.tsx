@@ -13,6 +13,7 @@ import {MdFastfood} from 'react-icons/md';
 
 import audio from './assets/audio.mp3';
 import './assets/fonts.css';
+import './assets/styles.css';
 
 export const Food: React.FC<{
 	titleColor: string;
@@ -50,7 +51,7 @@ export const Food: React.FC<{
 
 	const opacityIcon = interpolate(frame, [0, 60], [0, 1]);
 
-	const globalFont = 'Cantarell';
+	const globalFont = 'Muli';
 
 	return data.data ? (
 		<div style={{flex: 1, backgroundColor: '#111116'}}>
