@@ -28,6 +28,7 @@
 		"highlight.js": "^11.5.0",
 		"jsdom": "^19.0.0",
 		"markdown-it": "^12.3.2",
+		"minimist": "^1.2.6",
 		"moment": "^2.29.1",
 		"prettier": "^2.2.1",
 		"react": "^17.0.2",
