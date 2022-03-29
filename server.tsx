@@ -11,9 +11,13 @@ import axios from 'axios';
 import moment from 'moment';
 import {JSDOM} from 'jsdom';
 import {CronJob} from 'cron';
+import MarkdownIt from 'markdown-it';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const clc = require('cli-color');
 
+const md = new MarkdownIt();
 const app = express();
 const port = process.env.PORT || 8080;
 const compositionId = 'Food';
@@ -178,12 +182,69 @@ const cacheVideo = async (req: Request, res: Response) => {
 let food: IFood | undefined = undefined;
 
 app.get('/', (req, res) => {
+	const file = fs.readFileSync('./README.md');
+	const head = `<title>API Documentation</title>
+	<link rel="stylesheet" 
+	href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown.min.css" 
+	integrity="${process.env.SHA512_KEY}" 
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<style>
+		@font-face {
+			font-family: 'Muli';
+			src: url('https://fonts.gstatic.com/s/muli/v26/7Aulp_0qiz-aVz7u3PJLcUMYOFnOkEk30eg.woff2')
+				format('woff2');
+			font-style: normal;
+			font-weight: 400;
+			unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC,
+				U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+				U+FFFD;
+		}
+		@font-face {
+			font-family: 'Muli';
+			src: url('https://fonts.gstatic.com/s/muli/v26/7Aulp_0qiz-aVz7u3PJLcUMYOFkpl0k30eg.woff2')
+				format('woff2');
+			font-style: normal;
+			font-weight: 700;
+			unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC,
+				U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+				U+FFFD;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			body {
+				background: #0d1117;
+			}
+		}
+
+		body {
+			font-family: "Muli", -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+		}
+
+		.markdown-body {
+			box-sizing: border-box;
+			min-width: 200px;
+			max-width: 980px;
+			margin: 0 auto;
+			padding: 45px;
+			font-family: "Muli";
+		}
+	
+		@media (max-width: 800px) {
+			.markdown-body {
+				padding: 15px;
+			}
+		}
+	</style>`;
+
 	res.send(
-		`<code>welcome to ruoka-mp4! <br>video => <a href="/video">./video<a/><br>api => <a href="/cors">./cors<a/></code>`
+		head +
+			`<article class="markdown-body">
+				${md.render(file.toString())}
+			</article>`
 	);
 });
 
-app.get('/cors', async (req, res) => {
+app.get('/api', async (req, res) => {
 	res.set('Access-Control-Allow-Origin', '*');
 
 	if (!food) {

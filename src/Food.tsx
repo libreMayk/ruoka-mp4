@@ -14,6 +14,9 @@ import {MdFastfood} from 'react-icons/md';
 import audio from './assets/audio.mp3';
 import './assets/fonts.css';
 import './assets/styles.css';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const Food: React.FC<{
 	titleColor: string;
@@ -22,7 +25,7 @@ export const Food: React.FC<{
 	const [handle] = useState(() => delayRender());
 
 	const fetchData = async () => {
-		const response = await fetch('http://localhost:8080/cors', {
+		const response = await fetch(`${process.env.API_URL}/api`, {
 			mode: 'cors',
 		});
 		const json = await response.json();
