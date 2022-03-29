@@ -8,8 +8,8 @@
 
 ### Endpoints
 
-1. [/api](#apiapi-endpoint)
-2. [/video](#videovideo-endpoint)
+1. [/api](#api-endpoint)
+2. [/video](#video-endpoint)
 
 ### [`/api`](/api) endpoint
 
