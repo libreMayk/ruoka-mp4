@@ -14,9 +14,6 @@ import {MdFastfood} from 'react-icons/md';
 import audio from './assets/audio.mp3';
 import './assets/fonts.css';
 import './assets/styles.css';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 export const Food: React.FC<{
 	titleColor: string;

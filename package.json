@@ -3,8 +3,8 @@
 	"version": "1.0.0",
 	"description": "A tool to render mayk.fi menu as a video.",
 	"scripts": {
-		"start": "remotion preview src/index.tsx",
-		"build": "remotion render src/index.tsx Food out/ruoka.mp4",
+		"start": "remotion preview src/index.tsx --env-file .env",
+		"build": "remotion render src/index.tsx Food out/ruoka.mp4 --env-file .env",
 		"upgrade": "remotion upgrade",
 		"server": "ts-node server.tsx",
 		"test": "eslint src --ext ts,tsx,js,jsx && tsc"
@@ -23,6 +23,7 @@
 		"dotenv": "^16.0.0",
 		"eslint": "^7.15.0",
 		"express": "^4.17.1",
+		"fs": "^0.0.1-security",
 		"github-markdown-css": "^5.1.0",
 		"got": "^12.0.1",
 		"highlight.js": "^11.5.0",
