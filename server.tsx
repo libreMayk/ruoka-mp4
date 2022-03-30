@@ -34,6 +34,7 @@ interface IFood {
 	normal: string[];
 	vege: string[];
 }
+let busy = false;
 
 const fetchData = () =>
 	new Promise<IFood | undefined>((resolve) => {
@@ -113,7 +114,9 @@ const createVideo = async (inputProps?: object | undefined) => {
 		const {assetsInfo} = await renderFrames({
 			config: video,
 			webpackBundle: bundled,
-			onStart: () => console.log(info + 'Rendering frames...'),
+			onStart: () => {
+				console.log(info + 'Rendering frames...');
+			},
 			onFrameUpdate: (f) => {
 				if (f % 10 === 0) {
 					process.stdout.write(info + `Rendered frame ${clc.bold(f)}...\r`);
@@ -171,10 +174,14 @@ const cacheVideo = async (req: Request, res: Response) => {
 	try {
 		res.set('content-type', 'video/mp4');
 
-		const finalOutput = await createVideo();
-		sendFile(finalOutput);
-
-		console.log(success + 'Sent video in', Date.now() - start, 'ms');
+		if (busy) {
+			console.info(info + `The video is already being rendered!`);
+		} else {
+			console.info(info + `Creating & sending the video...`);
+			const finalOutput = await createVideo();
+			sendFile(finalOutput);
+			console.log(success + 'Sent video in', Date.now() - start, 'ms');
+		}
 	} catch (err) {
 		console.log(error + 'An error has occured...');
 		console.error(err);
@@ -321,7 +328,7 @@ app.listen(port, async () => {
 
 	console.info(info + `Creating & sending the video...`);
 	await createVideo();
-	console.log(success + 'Sent video!');
+	console.info(success + 'Sent video!');
 
 	const continent = process.env.CRON_CONT || 'Europe';
 	const city = process.env.CRON_CITY || 'Helsinki';
@@ -331,9 +338,13 @@ app.listen(port, async () => {
 		async () => {
 			await fetchData();
 
-			console.info(info + `Creating & sending the video...`);
-			await createVideo();
-			console.log(success + 'Sent video!');
+			if (busy) {
+				console.info(info + `The video is already being rendered!`);
+			} else {
+				console.info(info + `Creating & sending the video...`);
+				await createVideo();
+				console.info(success + 'Sent video!');
+			}
 		},
 		null,
 		true,
