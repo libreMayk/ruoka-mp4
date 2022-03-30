@@ -124,6 +124,11 @@ const createVideo = async (inputProps?: object | undefined) => {
 			inputProps,
 			compositionId,
 			imageFormat: 'jpeg',
+			envVariables: {
+				SHA512_KEY:
+					'sha512-KUoB3bZ1XRBYj1QcH4BHCQjurAZnCO3WdrswyLDtp7BMwCw7dPZngSLqILf68SGgvnWHTD5pPaYrXi6wiRJ65g==',
+				API_URL: 'http://localhost:8080',
+			},
 		});
 
 		await stitchFramesToVideo({
