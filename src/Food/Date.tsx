@@ -4,7 +4,8 @@ export const Date: React.FC<{
 	titleText: string;
 	titleColor: string;
 	font?: string;
-}> = ({titleText, titleColor, font}) => {
+	marginTop: number;
+}> = ({titleText, titleColor, font, marginTop}) => {
 	const videoConfig = useVideoConfig();
 	const frame = useCurrentFrame();
 	const text = titleText.split(' ').map((t) => ` ${t} `);
@@ -15,7 +16,7 @@ export const Date: React.FC<{
 				fontWeight: 'bold',
 				fontSize: 80,
 				textAlign: 'left',
-				marginTop: '24rem',
+				marginTop: marginTop - 6 + 'rem',
 				marginLeft: '5rem',
 				width: '100%',
 			}}

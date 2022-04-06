@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {Audio, continueRender} from 'remotion';
+import {AbsoluteFill, Audio, continueRender} from 'remotion';
 import {delayRender} from 'remotion';
 import {useState} from 'react';
 import {interpolate, Sequence, useCurrentFrame, useVideoConfig} from 'remotion';
@@ -52,16 +52,22 @@ export const Food: React.FC<{
 	const opacityIcon = interpolate(frame, [0, 60], [0, 1]);
 
 	const globalFont = 'Muli';
+	const marginMenu = 32;
 
 	return data.data ? (
 		<div style={{flex: 1, backgroundColor: '#111116'}}>
 			<Audio src={audio} startFrom={0} endAt={300} />
 			<div style={{opacity}}>
 				<Sequence from={0} durationInFrames={videoConfig.durationInFrames}>
-					<Logo transitionStart={25} />
+					<div style={{opacity}}>
+						<AbsoluteFill>
+							<MaykLogo opacity={0.05} size={700} />
+						</AbsoluteFill>
+					</div>
 				</Sequence>
 				<Sequence from={0}>
 					<Date
+						marginTop={marginMenu}
 						font={globalFont}
 						titleText={`${data.data.menu_today.food.date} - vk ${data.data.menu_today.food.current_week}`}
 						titleColor={titleColor}
@@ -70,7 +76,7 @@ export const Food: React.FC<{
 				<Sequence from={20}>
 					<div
 						style={{
-							marginTop: '31rem',
+							marginTop: marginMenu + 'rem',
 							marginLeft: '6rem',
 							display: 'inline',
 							color: 'white',
@@ -109,9 +115,6 @@ export const Food: React.FC<{
 						</div>
 					</div>
 				</Sequence>
-			</div>
-			<div style={{opacity}}>
-				<MaykLogo />
 			</div>
 		</div>
 	) : (

@@ -4,8 +4,8 @@ import {Meal} from './Food/Meal';
 import {Date} from './Food/Date';
 
 export const RemotionVideo: React.FC = () => {
-	const width = 1000;
-	const height = 1000;
+	const width = 1080;
+	const height = 1080;
 	const fps = 60;
 
 	return (
