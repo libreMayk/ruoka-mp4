@@ -1,4 +1,4 @@
-[![mayk_logo](https://www.mayk.fi/wp-content/uploads/2017/06/pelkka%CC%88piiArtboard-2.png)](https://www.mayk.fi/)
+[![mayk_logo](https://raw.githubusercontent.com/libreMayk/ruoka-mp4/main/src/assets/punainenpii.svg)](https://www.mayk.fi/)
 
 # ruoka-mp4
 
