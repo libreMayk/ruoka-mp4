@@ -113,6 +113,7 @@ const createVideo = async (inputProps?: object | undefined) => {
 
 		const {assetsInfo} = await renderFrames({
 			config: video,
+			timeoutInMilliseconds: 100000,
 			webpackBundle: bundled,
 			onStart: () => {
 				console.log(info + 'Rendering frames...');
