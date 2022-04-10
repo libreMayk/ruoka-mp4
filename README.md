@@ -60,4 +60,4 @@ There you can find the API in a JSON format. This is what it would look like:
 
 When the video is rendered, it is sent to [`/video`](/video) as a **video** in `.mp4` format. Here is an example:
 
-[![ruoka_preview](http://img.youtube.com/vi/MnTTeq7vGtc/0.jpg)](http://www.youtube.com/watch?v=MnTTeq7vGtc 'ruoka_preview')
+[![ruoka_preview](https://img.youtube.com/vi/MnTTeq7vGtc/0.jpg)](https://www.youtube.com/watch?v=MnTTeq7vGtc 'ruoka_preview')

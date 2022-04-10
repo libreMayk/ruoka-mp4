@@ -1,15 +1,17 @@
 'use strict';
 
 require('dotenv/config');
-const app = require('./server.tsx');
+const {app, initMain} = require('./server.tsx');
+const gl = require('greenlock-express');
 
-require('greenlock-express')
-	.init({
-		packageRoot: __dirname,
-		configDir: './greenlock.d',
-		maintainerEmail: process.env.EMAIL,
-		cluster: false,
-	})
+gl.init({
+	packageRoot: __dirname,
+	configDir: './greenlock.d',
+	maintainerEmail: process.env.EMAIL,
+	cluster: false,
+})
 	// Serves on ports 80 and 443
 	// Magically get SSL certificates!
-	.serve(app);
+	.serve(app, async () => {
+		await initMain();
+	});
