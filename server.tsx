@@ -319,39 +319,44 @@ app.get('/video', async (req, res) => {
 	cacheVideo(req, res);
 });
 
-app.listen(port, async () => {
-	food = await fetchData();
-	fs.writeFileSync(
-		`./videos/${moment(new Date()).format('YYYYMMDD')}.json`,
-		JSON.stringify(food)
-	);
+if (require.main === module) {
+	app.listen(port, async () => {
+		food = await fetchData();
+		fs.writeFileSync(
+			`./videos/${moment(new Date()).format('YYYYMMDD')}.json`,
+			JSON.stringify(food)
+		);
 
-	console.info(info + `Creating & sending the video...`);
-	await createVideo();
-	console.info(success + 'Sent video!');
+		console.info(info + `Creating & sending the video...`);
+		await createVideo();
+		console.info(success + 'Sent video!');
 
-	const continent = process.env.CRON_CONT || 'Europe';
-	const city = process.env.CRON_CITY || 'Helsinki';
+		const continent = process.env.CRON_CONT || 'Europe';
+		const city = process.env.CRON_CITY || 'Helsinki';
 
-	const job = new CronJob(
-		'0 7 * * *',
-		async () => {
-			await fetchData();
+		const job = new CronJob(
+			'0 7 * * *',
+			async () => {
+				await fetchData();
 
-			if (busy) {
-				console.info(info + `The video is already being rendered!`);
-			} else {
-				console.info(info + `Creating & sending the video...`);
-				await createVideo();
-				console.info(success + 'Sent video!');
-			}
-		},
-		null,
-		true,
-		`${continent + '/' + city}`
-	);
+				if (busy) {
+					console.info(info + `The video is already being rendered!`);
+				} else {
+					console.info(info + `Creating & sending the video...`);
+					await createVideo();
+					console.info(success + 'Sent video!');
+				}
+			},
+			null,
+			true,
+			`${continent + '/' + city}`
+		);
 
-	job.start();
-});
+		job.start();
+	});
+}
 
 console.info(success + `Server is running on http://localhost:${port}.`);
+
+// export "app"
+module.exports = app;
